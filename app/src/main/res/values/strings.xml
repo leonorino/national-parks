@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">NationalParks</string>
+    <string name="nav_passport">Passport</string>
+    <string name="nav_explore">Explore</string>
+    <string name="nav_map">Map</string>
+
+</resources>
