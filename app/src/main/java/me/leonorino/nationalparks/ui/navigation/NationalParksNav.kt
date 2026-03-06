@@ -9,16 +9,22 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import me.leonorino.nationalparks.NationalParksApplication
+import me.leonorino.nationalparks.ui.explore.ExploreScreen
+import me.leonorino.nationalparks.ui.explore.ExploreViewModel
 import me.leonorino.nationalparks.ui.theme.ParkGreen
 
 @Composable
@@ -56,13 +62,15 @@ fun NationalParksBottomBar(navController: NavController) {
 
 @Composable
 fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    val exploreViewModel: ExploreViewModel = viewModel(factory = ExploreViewModel.Factory)
+
     NavHost(
         navController = navController,
         startDestination = Screen.Passport.route,
         modifier = modifier
     ) {
         composable(Screen.Passport.route) { PlaceholderScreen("Passport") }
-        composable(Screen.Explore.route) { PlaceholderScreen("Explore") }
+        composable(Screen.Explore.route) { ExploreScreen(exploreViewModel) }
         composable(Screen.Map.route) { PlaceholderScreen("Map") }
     }
 }
