@@ -19,10 +19,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
 import me.leonorino.nationalparks.NationalParksApplication
+import me.leonorino.nationalparks.ui.details.DetailsScreen
+import me.leonorino.nationalparks.ui.details.DetailsViewModel
 import me.leonorino.nationalparks.ui.explore.ExploreScreen
 import me.leonorino.nationalparks.ui.explore.ExploreViewModel
 import me.leonorino.nationalparks.ui.theme.ParkGreen
@@ -37,8 +41,8 @@ fun NationalParksBottomBar(navController: NavController) {
 
         items.forEach { screen ->
             NavigationBarItem(
-                icon = { Icon(imageVector = screen.icon, contentDescription = null) },
-                label = { Text(text = stringResource(id = screen.labelResId)) },
+                icon = { Icon(imageVector = screen.icon!!, contentDescription = null) },
+                label = { Text(text = stringResource(id = screen.labelResId!!)) },
                 selected = currentRoute == screen.route,
                 onClick = {
                     navController.navigate(screen.route) {
@@ -70,8 +74,24 @@ fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = 
         modifier = modifier
     ) {
         composable(Screen.Passport.route) { PlaceholderScreen("Passport") }
-        composable(Screen.Explore.route) { ExploreScreen(exploreViewModel) }
+        composable(Screen.Explore.route) { ExploreScreen(exploreViewModel, onParkClick = { parkId ->
+            navController.navigate(Screen.Details.createRoute(parkId))
+        }) }
         composable(Screen.Map.route) { PlaceholderScreen("Map") }
+
+        composable(
+            route = Screen.Details.route,
+            arguments = listOf(navArgument("parkId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val parkId = backStackEntry.arguments?.getString("parkId") ?: ""
+            val detailsViewModel: DetailsViewModel = viewModel(factory = DetailsViewModel.Factory)
+
+            DetailsScreen(
+                parkId = parkId,
+                viewModel = detailsViewModel,
+                onBack = { navController.popBackStack() }
+            )
+        }
     }
 }
 

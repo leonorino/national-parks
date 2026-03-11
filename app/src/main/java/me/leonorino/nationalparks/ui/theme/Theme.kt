@@ -8,6 +8,8 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
@@ -33,6 +35,7 @@ private val LightColorScheme = lightColorScheme(
 fun NationalParksTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
+    unitState: UnitState = remember { UnitState() },
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -44,9 +47,11 @@ fun NationalParksTheme(
       else -> LightColorScheme
     }
 
-    MaterialTheme(
-      colorScheme = colorScheme,
-      typography = Typography,
-      content = content
-    )
+    CompositionLocalProvider(LocalUnitSystem provides unitState) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
 }

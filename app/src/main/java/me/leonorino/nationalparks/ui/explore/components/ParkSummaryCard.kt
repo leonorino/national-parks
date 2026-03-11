@@ -15,7 +15,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -30,6 +29,7 @@ import me.leonorino.nationalparks.model.Park
 import me.leonorino.nationalparks.model.USState
 import me.leonorino.nationalparks.ui.theme.DarkText
 import me.leonorino.nationalparks.ui.theme.MutedText
+import me.leonorino.nationalparks.ui.utils.fullName
 
 @Composable
 fun ParkSummaryCard(park: Park, onClick: () -> Unit) {
@@ -67,6 +67,7 @@ fun ParkSummaryCard(park: Park, onClick: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
+                    .fillMaxWidth(0.45f)
                     .padding(start = 24.dp),
                 verticalArrangement = Arrangement.Center
             ) {
@@ -91,12 +92,15 @@ fun ParkSummaryCard(park: Park, onClick: () -> Unit) {
 fun ParkSummaryCardPreview() {
     val mockPark = Park(
         id = "yellowstone",
-        fullName = "Yellowstone",
+        nameResId = R.string.park_yellowstone_name,
+        descriptionResId = R.string.park_yellowstone_description,
+        categoryResIds = listOf(R.string.category_popular),
         states = listOf(USState.CA),
-        description = "Just a yellowstone national park",
         cardImageUrl = "images/yellowstone_card.jpg",
         expandedImageUrl = "",
-        categories = listOf()
+        elevationMeters = 1000,
+        areaSqKm = 500.0,
+        yearlyVisitors = 1000
     )
 
     MaterialTheme {

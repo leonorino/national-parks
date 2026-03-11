@@ -1,8 +1,5 @@
 package me.leonorino.nationalparks.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 enum class USState(val abbreviation: String, val fullName: String) {
     AL("AL", "Alabama"), AK("AK", "Alaska"), AZ("AZ", "Arizona"), AR("AR", "Arkansas"),
     CA("CA", "California"), CO("CO", "Colorado"), CT("CT", "Connecticut"), DE("DE", "Delaware"),

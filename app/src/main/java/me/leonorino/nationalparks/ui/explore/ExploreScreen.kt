@@ -31,7 +31,10 @@ import me.leonorino.nationalparks.ui.theme.BeigeBackground
 import me.leonorino.nationalparks.ui.theme.ParkGreen
 
 @Composable
-fun ExploreScreen(viewModel: ExploreViewModel) {
+fun ExploreScreen(
+    viewModel: ExploreViewModel,
+    onParkClick: (String) -> Unit
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Column(
@@ -50,34 +53,52 @@ fun ExploreScreen(viewModel: ExploreViewModel) {
 
         ParkSearchBar()
 
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(bottom = 16.dp)
-        ) {
-            val categories = listOf("All parks", "Forests", "Plains", "Deserts")
-            items(categories) { category ->
-                FilterChip(
-                    selected = category == "All parks",
-                    onClick = { },
-                    label = { Text(category) },
-                    colors = FilterChipDefaults.filterChipColors(
-                        selectedContainerColor = ParkGreen,
-                        selectedLabelColor = Color.White
-                    )
-                )
+        when (val state = uiState) {
+            is ExploreUiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
             }
-        }
+            is ExploreUiState.Error -> {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Text(stringResource(state.messageResId), Modifier.align(Alignment.Center))
+                }
+            }
+            is ExploreUiState.Success -> {
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                ) {
+                    item {
+                        FilterChip(
+                            selected = state.selectedCategory == null,
+                            onClick = { viewModel.onCategorySelected(null) },
+                            label = { Text(stringResource(R.string.filter_all)) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = ParkGreen,
+                                selectedLabelColor = Color.White
+                            )
+                        )
+                    }
+                    items(state.categories) { categoryResId ->
+                        FilterChip(
+                            selected = state.selectedCategory == categoryResId,
+                            onClick = { viewModel.onCategorySelected(categoryResId) },
+                            label = { Text(stringResource(categoryResId)) },
+                            colors = FilterChipDefaults.filterChipColors(
+                                selectedContainerColor = ParkGreen,
+                                selectedLabelColor = Color.White
+                            )
+                        )
+                    }
+                }
 
-        Box(modifier = Modifier.fillMaxSize()) {
-            when (val state = uiState) {
-                is ExploreUiState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-                is ExploreUiState.Error -> Text(stringResource(state.messageResId), Modifier.align(Alignment.Center))
-                is ExploreUiState.Success -> {
-                    LazyColumn {
-                        items(state.parks) { park ->
-                            ParkSummaryCard(park = park, onClick = { })
-                        }
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(state.parks) { park ->
+                        ParkSummaryCard(park = park, onClick = { onParkClick(park.id) })
                     }
                 }
             }
