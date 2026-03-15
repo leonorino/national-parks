@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "parks")
 data class Park(
     @PrimaryKey val id: String,
     val nameResId: Int,
