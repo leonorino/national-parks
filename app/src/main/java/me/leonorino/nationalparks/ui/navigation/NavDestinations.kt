@@ -10,7 +10,21 @@ import me.leonorino.nationalparks.R
 sealed class Screen(val route: String, val labelResId: Int? = null, val icon: ImageVector? = null) {
     object Passport : Screen("passport", R.string.nav_passport, Icons.Default.LocalActivity)
     object Explore : Screen("explore", R.string.nav_explore, Icons.Default.Explore)
-    object Map : Screen("map", R.string.nav_map, Icons.Default.Map)
+    object Map : Screen("map", R.string.nav_map, Icons.Default.Map) {
+        const val navRoute = "map?lat={lat}&lon={lon}&zoom={zoom}"
+        fun createRoute(lat: Double? = null, lon: Double? = null, zoom: Double? = null): String {
+            return "map" + buildString {
+                val params = mutableListOf<String>()
+                if (lat != null) params.add("lat=$lat")
+                if (lon != null) params.add("lon=$lon")
+                if (zoom != null) params.add("zoom=$zoom")
+                if (params.isNotEmpty()) {
+                    append("?")
+                    append(params.joinToString("&"))
+                }
+            }
+        }
+    }
     object Details : Screen("details/{parkId}") {
         fun createRoute(parkId: String) = "details/$parkId"
     }

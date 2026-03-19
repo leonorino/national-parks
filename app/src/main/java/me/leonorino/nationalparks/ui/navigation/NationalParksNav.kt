@@ -9,11 +9,9 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -24,11 +22,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import me.leonorino.nationalparks.NationalParksApplication
 import me.leonorino.nationalparks.ui.details.DetailsScreen
 import me.leonorino.nationalparks.ui.details.DetailsViewModel
 import me.leonorino.nationalparks.ui.explore.ExploreScreen
 import me.leonorino.nationalparks.ui.explore.ExploreViewModel
+import me.leonorino.nationalparks.ui.map.MapScreen
 import me.leonorino.nationalparks.ui.passport.PassportScreen
 import me.leonorino.nationalparks.ui.passport.PassportViewModel
 import me.leonorino.nationalparks.ui.theme.ParkGreen
@@ -45,7 +43,7 @@ fun NationalParksBottomBar(navController: NavController) {
             NavigationBarItem(
                 icon = { Icon(imageVector = screen.icon!!, contentDescription = null) },
                 label = { Text(text = stringResource(id = screen.labelResId!!)) },
-                selected = currentRoute == screen.route,
+                selected = currentRoute?.startsWith(screen.route) == true,
                 onClick = {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -70,6 +68,9 @@ fun NationalParksBottomBar(navController: NavController) {
 fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     val exploreViewModel: ExploreViewModel = viewModel(factory = ExploreViewModel.Factory)
     val passportViewModel: PassportViewModel = viewModel(factory = PassportViewModel.Factory)
+    val onParkClick = { parkId: String ->
+        navController.navigate(Screen.Details.createRoute(parkId))
+    }
 
     NavHost(
         navController = navController,
@@ -84,10 +85,25 @@ fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = 
                 }
             )
         }
-        composable(Screen.Explore.route) { ExploreScreen(exploreViewModel, onParkClick = { parkId ->
-            navController.navigate(Screen.Details.createRoute(parkId))
-        }) }
-        composable(Screen.Map.route) { PlaceholderScreen("Map") }
+        composable(Screen.Explore.route) { ExploreScreen(exploreViewModel, onParkClick = onParkClick) }
+        composable(
+            route = Screen.Map.navRoute,
+            arguments = listOf(
+                navArgument("lat") { type = NavType.StringType; nullable = true },
+                navArgument("lon") { type = NavType.StringType; nullable = true },
+                navArgument("zoom") { type = NavType.StringType; nullable = true }
+            )
+        ) { backStackEntry ->
+            val lat = backStackEntry.arguments?.getString("lat")?.toDoubleOrNull()
+            val lon = backStackEntry.arguments?.getString("lon")?.toDoubleOrNull()
+            val zoom = backStackEntry.arguments?.getString("zoom")?.toDoubleOrNull()
+            MapScreen(
+                onParkClick = onParkClick,
+                initialLat = lat,
+                initialLon = lon,
+                initialZoom = zoom
+            )
+        }
 
         composable(
             route = Screen.Details.route,
@@ -99,7 +115,17 @@ fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = 
             DetailsScreen(
                 parkId = parkId,
                 viewModel = detailsViewModel,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onShowMap = { park ->
+                    val route = Screen.Map.createRoute(park.latitude, park.longitude, 12.0)
+                    navController.navigate(route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
             )
         }
     }

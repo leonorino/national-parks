@@ -169,5 +169,14 @@
     <string name="park_yellowstone_description">The world\'s first national park and a geothermal wonderland home to Old Faithful and over half of the world\'s geysers. Its vast wilderness supports a rich ecosystem of grizzly bears, wolves, and free-ranging bison.</string>
     <string name="park_yosemite_description">A world-renowned sanctuary of granite cliffs, spectacular waterfalls, and ancient giant sequoias. Iconic landmarks like El Capitan and Half Dome draw millions of visitors to the heart of the Sierra Nevada.</string>
     <string name="park_zion_description">Follow the paths of ancient people and gaze up at massive sandstone cliffs of cream, pink, and red. The park\'s dramatic canyons, including the Zion Narrows, offer some of the most spectacular hiking in the world.</string>
+    <string name="progress">PROGRESS</string>
+    <string name="stamps_collected">STAMPS COLLECTED</string>
+    <string name="sort_recent">Recent</string>
+    <string name="sort_states">States</string>
+    <string name="sort_alphabetical">A-Z</string>
+    <string name="interactive_map">INTERACTIVE MAP</string>
+    <string name="collected">STAMP COLLECTED!fffffff</string>
+    <string name="collect">I\'VE BEEN THERE!</string>
+    <string name="stamp_info">Add a stamp to your digital passport</string>
 
 </resources>

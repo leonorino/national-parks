@@ -1,5 +1,6 @@
 package me.leonorino.nationalparks.ui.details
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -41,12 +42,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.AsyncImage
 import me.leonorino.nationalparks.R
 import me.leonorino.nationalparks.model.Park
@@ -63,9 +66,18 @@ import me.leonorino.nationalparks.ui.utils.description
 import me.leonorino.nationalparks.ui.utils.formattedArea
 import me.leonorino.nationalparks.ui.utils.formattedElevation
 import me.leonorino.nationalparks.ui.utils.fullName
+import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 @Composable
-fun DetailsScreen(parkId: String, viewModel: DetailsViewModel, onBack: () -> Unit) {
+fun DetailsScreen(
+    parkId: String,
+    viewModel: DetailsViewModel,
+    onBack: () -> Unit,
+    onShowMap: (Park) -> Unit = {}
+) {
     var park by remember { mutableStateOf<Park?>(null) }
     val isVisited by viewModel.isVisited.collectAsState()
 
@@ -79,7 +91,8 @@ fun DetailsScreen(parkId: String, viewModel: DetailsViewModel, onBack: () -> Uni
             park = currentPark,
             isVisited = isVisited,
             onBack = onBack,
-            onToggleVisit = { viewModel.toggleVisit(currentPark.id) }
+            onToggleVisit = { viewModel.toggleVisit(currentPark.id) },
+            onShowMap = { onShowMap(currentPark) }
         )
     }
 }
@@ -89,7 +102,8 @@ fun DetailsContent(
     park: Park,
     isVisited: Boolean,
     onBack: () -> Unit,
-    onToggleVisit: () -> Unit
+    onToggleVisit: () -> Unit,
+    onShowMap: () -> Unit
 ) {
     val unitState = LocalUnitSystem.current
     val isMetric = unitState.currentUnit == UnitSystem.METRIC
@@ -164,7 +178,6 @@ fun DetailsContent(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Visit Toggle Button
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -188,7 +201,7 @@ fun DetailsContent(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = if (isVisited) "STAMP COLLECTED!" else "I'VE BEEN HERE!",
+                            text = if (isVisited) stringResource(R.string.collected) else stringResource(R.string.collect),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp
@@ -199,9 +212,91 @@ fun DetailsContent(
                 Spacer(modifier = Modifier.height(12.dp))
                 
                 Text(
-                    text = "Add a stamp to your Digital Explorer Passport",
+                    text = stringResource(R.string.stamp_info),
                     style = MaterialTheme.typography.bodySmall,
                     color = MutedText
+                )
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            MapSection(
+                latitude = park.latitude,
+                longitude = park.longitude,
+                onMapClick = onShowMap
+            )
+        }
+    }
+}
+
+@Composable
+fun MapSection(
+    latitude: Double,
+    longitude: Double,
+    modifier: Modifier = Modifier,
+    onMapClick: () -> Unit = {}
+) {
+    val context = LocalContext.current
+
+    // Initialize OSM Configuration
+    LaunchedEffect(Unit) {
+        Configuration.getInstance().load(
+            context,
+            context.getSharedPreferences("osm_prefs", Context.MODE_PRIVATE)
+        )
+        Configuration.getInstance().userAgentValue = context.packageName
+    }
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .clickable { onMapClick() }
+    ) {
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { ctx ->
+                MapView(ctx).apply {
+                    setMultiTouchControls(false)
+                    controller.setZoom(10.0)
+                    val startPoint = GeoPoint(latitude, longitude)
+                    controller.setCenter(startPoint)
+
+                    val marker = Marker(this)
+                    marker.position = startPoint
+                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                    overlays.add(marker)
+                }
+            },
+            update = { view ->
+                view.controller.setCenter(GeoPoint(latitude, longitude))
+            }
+        )
+
+        Surface(
+            onClick = onMapClick,
+            shape = RoundedCornerShape(24.dp),
+            color = Color.White,
+            modifier = Modifier
+                .align(Alignment.Center)
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Map,
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                    tint = Color.Black
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.interactive_map),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
                 )
             }
         }
@@ -232,7 +327,8 @@ fun DetailsScreenPreview() {
             park = mockPark,
             isVisited = false,
             onBack = {},
-            onToggleVisit = {}
+            onToggleVisit = {},
+            onShowMap = {}
         )
     }
 }

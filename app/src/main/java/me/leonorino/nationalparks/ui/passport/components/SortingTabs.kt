@@ -1,4 +1,4 @@
-package me.leonorino.nationalparks.ui.passport
+package me.leonorino.nationalparks.ui.passport.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.leonorino.nationalparks.R
+import me.leonorino.nationalparks.ui.passport.SortOrder
 import me.leonorino.nationalparks.ui.theme.MutedText
 import me.leonorino.nationalparks.ui.theme.ParkGreen
 

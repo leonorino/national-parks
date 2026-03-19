@@ -8,7 +8,8 @@ import me.leonorino.nationalparks.model.Visit
 
 @Database(
     version = 1,
-    entities = [Visit::class]
+    entities = [Visit::class],
+    exportSchema = false
 )
 abstract class NationalParksDatabase : RoomDatabase() {
     abstract fun visitDao() : VisitDao

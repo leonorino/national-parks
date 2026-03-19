@@ -14,6 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import me.leonorino.nationalparks.ui.passport.components.PassportHeader
+import me.leonorino.nationalparks.ui.passport.components.ProgressCard
+import me.leonorino.nationalparks.ui.passport.components.SortingTabs
+import me.leonorino.nationalparks.ui.passport.components.StampItem
 
 @Composable
 fun PassportScreen(

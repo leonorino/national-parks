@@ -1,6 +1,7 @@
-package me.leonorino.nationalparks.ui.passport
+package me.leonorino.nationalparks.ui.passport.components
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -82,11 +83,11 @@ fun StampItem(
                     modifier = Modifier.fillMaxSize(),
                     shape = CircleShape,
                     color = Color.Transparent,
-                    border = androidx.compose.foundation.BorderStroke(2.dp, Color(0xFFE0E0D0))
+                    border = BorderStroke(2.dp, Color(0xFFE0E0D0))
                 ) {}
             } else {
                 // Dashed border for unvisited
-                androidx.compose.foundation.Canvas(modifier = Modifier.fillMaxSize()) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
                     drawCircle(
                         color = MutedText.copy(alpha = 0.4f),
                         style = Stroke(

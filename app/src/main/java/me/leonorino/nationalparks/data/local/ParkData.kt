@@ -856,7 +856,7 @@ object ParkData {
             expandedImageUrl = "images/voyageurs_details.webp",
             latitude = 48.4771,
             longitude = -92.8349,
-            badgeImageUrl = "badges/voyagers.webp",
+            badgeImageUrl = "badges/voyaguers.webp",
             elevationMeters = 399,
             areaSqKm = 883.0,
             yearlyVisitors = 220000

@@ -1,4 +1,4 @@
-package me.leonorino.nationalparks.ui.passport
+package me.leonorino.nationalparks.ui.passport.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
