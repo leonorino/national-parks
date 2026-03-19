@@ -97,7 +97,10 @@ fun ParkSummaryCardPreview() {
         categoryResIds = listOf(R.string.category_popular),
         states = listOf(USState.CA),
         cardImageUrl = "images/yellowstone_card.jpg",
-        expandedImageUrl = "",
+        expandedImageUrl = "images/yellowstone_details.jpg",
+        latitude = 44.4280,
+        longitude = -110.5885,
+        badgeImageUrl = "badges/yellowstone.webp",
         elevationMeters = 1000,
         areaSqKm = 500.0,
         yearlyVisitors = 1000

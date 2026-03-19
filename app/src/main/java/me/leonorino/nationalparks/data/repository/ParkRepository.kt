@@ -15,10 +15,11 @@ class ParkRepository(
     val allParks: Flow<List<Park>> = flowOf(ParkData.parks)
     val allParksWithStatus: Flow<List<ParkWithStatus>> = flowOf(ParkData.parks)
         .combine(visitDao.getAllVisits()) { parks, visits ->
-            val visitedIds = visits.map { it.parkId }.toSet()
+            val visitsMap = visits.associateBy { it.parkId }
 
             parks.map { park ->
-                ParkWithStatus(park, visitedIds.contains(park.id))
+                val visit = visitsMap[park.id]
+                ParkWithStatus(park, visit != null, visit?.visitedDate)
             }
         }
 

@@ -5,5 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "visits")
 data class Visit (
-    @PrimaryKey val parkId: String
+    @PrimaryKey val parkId: String,
+    val visitedDate: Long = System.currentTimeMillis()
 )

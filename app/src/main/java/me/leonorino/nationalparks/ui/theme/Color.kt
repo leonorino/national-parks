@@ -4,6 +4,8 @@ import androidx.compose.ui.graphics.Color
 
 val ParkGreen = Color(0xFF2DDA44)
 val ParkGreenLight = Color(0xFFEAF9EA)
+val ForestGreen = Color(0xFF224422)
+val ProgressTrackGreen = Color(0xFF335533)
 val BeigeBackground = Color(0xFFF5F5ED)
 val DarkText = Color(0xFF1C1C1E)
 val MutedText = Color(0xFF8E8E93)

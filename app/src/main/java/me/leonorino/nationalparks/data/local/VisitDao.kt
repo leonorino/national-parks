@@ -12,7 +12,7 @@ interface VisitDao {
     @Query("SELECT * FROM visits")
     fun getAllVisits(): Flow<List<Visit>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(visit: Visit)
 
     @Query("DELETE FROM visits WHERE parkId = :parkId")

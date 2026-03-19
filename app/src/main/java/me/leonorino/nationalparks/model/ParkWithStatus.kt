@@ -2,5 +2,6 @@ package me.leonorino.nationalparks.model
 
 data class ParkWithStatus (
     val park: Park,
-    val isVisited: Boolean
+    val isVisited: Boolean,
+    val visitedDate: Long? = null
 )

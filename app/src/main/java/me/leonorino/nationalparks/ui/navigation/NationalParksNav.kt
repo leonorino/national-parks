@@ -29,6 +29,8 @@ import me.leonorino.nationalparks.ui.details.DetailsScreen
 import me.leonorino.nationalparks.ui.details.DetailsViewModel
 import me.leonorino.nationalparks.ui.explore.ExploreScreen
 import me.leonorino.nationalparks.ui.explore.ExploreViewModel
+import me.leonorino.nationalparks.ui.passport.PassportScreen
+import me.leonorino.nationalparks.ui.passport.PassportViewModel
 import me.leonorino.nationalparks.ui.theme.ParkGreen
 
 @Composable
@@ -67,13 +69,21 @@ fun NationalParksBottomBar(navController: NavController) {
 @Composable
 fun NationalParksNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     val exploreViewModel: ExploreViewModel = viewModel(factory = ExploreViewModel.Factory)
+    val passportViewModel: PassportViewModel = viewModel(factory = PassportViewModel.Factory)
 
     NavHost(
         navController = navController,
         startDestination = Screen.Passport.route,
         modifier = modifier
     ) {
-        composable(Screen.Passport.route) { PlaceholderScreen("Passport") }
+        composable(Screen.Passport.route) {
+            PassportScreen(
+                viewModel = passportViewModel,
+                onParkClick = { parkId ->
+                    navController.navigate(Screen.Details.createRoute(parkId))
+                }
+            )
+        }
         composable(Screen.Explore.route) { ExploreScreen(exploreViewModel, onParkClick = { parkId ->
             navController.navigate(Screen.Details.createRoute(parkId))
         }) }
