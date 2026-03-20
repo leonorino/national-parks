@@ -36,7 +36,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.leonorino.nationalparks.model.ParkWithStatus
 import me.leonorino.nationalparks.ui.theme.DarkText
+import me.leonorino.nationalparks.ui.theme.ForestGreen
 import me.leonorino.nationalparks.ui.theme.MutedText
+import me.leonorino.nationalparks.ui.utils.Constants
 
 @Composable
 fun StampItem(
@@ -58,7 +60,7 @@ fun StampItem(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("file:///android_asset/${parkWithStatus.park.badgeImageUrl}")
+                    .data("${Constants.ASSET_PATH}${parkWithStatus.park.badgeImageUrl}")
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
@@ -83,7 +85,7 @@ fun StampItem(
                     modifier = Modifier.fillMaxSize(),
                     shape = CircleShape,
                     color = Color.Transparent,
-                    border = BorderStroke(2.dp, Color(0xFFE0E0D0))
+                    border = BorderStroke(2.dp, ForestGreen)
                 ) {}
             } else {
                 // Dashed border for unvisited

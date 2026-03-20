@@ -22,7 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import me.leonorino.nationalparks.R
 import me.leonorino.nationalparks.ui.theme.DarkText
+import me.leonorino.nationalparks.ui.theme.ForestGreen
 import me.leonorino.nationalparks.ui.theme.ParkGreen
+import me.leonorino.nationalparks.ui.theme.ParkGreenLight
 
 @Composable
 fun PassportHeader(
@@ -49,7 +51,7 @@ fun PassportHeader(
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(Color(0xFFE0E0D0).copy(alpha = 0.5f))
+                .background(ParkGreenLight.copy(alpha = 0.5f))
         ) {
             Icon(
                 imageVector = Icons.Default.Settings,

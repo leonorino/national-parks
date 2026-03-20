@@ -47,5 +47,5 @@ val Park.formattedArea: String
 @Composable
 private fun isMetric(): Boolean {
     val unitState = LocalUnitSystem.current
-    return unitState.currentUnit == UnitSystem.METRIC
+    return unitState.currentDistanceUnit == UnitSystem.METRIC
 }

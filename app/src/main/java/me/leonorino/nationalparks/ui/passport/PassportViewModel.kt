@@ -41,7 +41,7 @@ class PassportViewModel(
                 compareByDescending<ParkWithStatus> { it.visitedDate ?: 0L }
                     .thenBy { getApplication<Application>().getString(it.park.nameResId) }
             )
-            SortOrder.STATE -> parks.sortedBy { it.park.states.firstOrNull()?.fullName ?: "" }
+            SortOrder.STATE -> parks.sortedBy { it.park.states.firstOrNull()?.fullNameResId }
             SortOrder.ALPHABETICAL -> parks.sortedBy { getApplication<Application>().getString(it.park.nameResId) }
         }
 

@@ -18,11 +18,13 @@ import me.leonorino.nationalparks.ui.passport.components.PassportHeader
 import me.leonorino.nationalparks.ui.passport.components.ProgressCard
 import me.leonorino.nationalparks.ui.passport.components.SortingTabs
 import me.leonorino.nationalparks.ui.passport.components.StampItem
+import me.leonorino.nationalparks.ui.theme.BeigeBackground
 
 @Composable
 fun PassportScreen(
     viewModel: PassportViewModel,
     onParkClick: (String) -> Unit,
+    onSettingsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -31,13 +33,13 @@ fun PassportScreen(
         columns = GridCells.Fixed(3),
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(BeigeBackground),
         contentPadding = PaddingValues(20.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
-            PassportHeader()
+            PassportHeader(onSettingsClick = onSettingsClick)
         }
 
         item(span = { GridItemSpan(maxLineSpan) }) {

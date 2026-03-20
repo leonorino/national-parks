@@ -62,6 +62,7 @@ import me.leonorino.nationalparks.ui.theme.MutedText
 import me.leonorino.nationalparks.ui.theme.NationalParksTheme
 import me.leonorino.nationalparks.ui.theme.ParkGreen
 import me.leonorino.nationalparks.ui.theme.UnitSystem
+import me.leonorino.nationalparks.ui.utils.Constants
 import me.leonorino.nationalparks.ui.utils.description
 import me.leonorino.nationalparks.ui.utils.formattedArea
 import me.leonorino.nationalparks.ui.utils.formattedElevation
@@ -106,7 +107,7 @@ fun DetailsContent(
     onShowMap: () -> Unit
 ) {
     val unitState = LocalUnitSystem.current
-    val isMetric = unitState.currentUnit == UnitSystem.METRIC
+    val isMetric = unitState.currentDistanceUnit == UnitSystem.METRIC
 
     Column(
         modifier = Modifier
@@ -116,7 +117,7 @@ fun DetailsContent(
     ) {
         Box(modifier = Modifier.height(350.dp).fillMaxWidth()) {
             AsyncImage(
-                model = "file:///android_asset/${park.expandedImageUrl}",
+                model = "${Constants.ASSET_PATH}${park.expandedImageUrl}",
                 placeholder = painterResource(R.drawable.card_preview),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -140,7 +141,7 @@ fun DetailsContent(
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )
@@ -150,7 +151,7 @@ fun DetailsContent(
 
         Column(modifier = Modifier.padding(24.dp)) {
             Text(text = park.fullName, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
-            Text(text = park.states.first().fullName, color = MutedText)
+            Text(text = stringResource(park.states.first().fullNameResId), color = MutedText)
 
             Row(modifier = Modifier.padding(vertical = 24.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 InfoCard(
@@ -242,7 +243,7 @@ fun MapSection(
     LaunchedEffect(Unit) {
         Configuration.getInstance().load(
             context,
-            context.getSharedPreferences("osm_prefs", Context.MODE_PRIVATE)
+            context.getSharedPreferences(Constants.OSM_PREFS, Context.MODE_PRIVATE)
         )
         Configuration.getInstance().userAgentValue = context.packageName
     }

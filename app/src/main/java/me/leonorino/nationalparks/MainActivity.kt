@@ -1,7 +1,7 @@
 package me.leonorino.nationalparks
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
@@ -12,7 +12,7 @@ import me.leonorino.nationalparks.ui.navigation.NationalParksBottomBar
 import me.leonorino.nationalparks.ui.navigation.NationalParksNavHost
 import me.leonorino.nationalparks.ui.theme.NationalParksTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

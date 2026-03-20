@@ -58,13 +58,13 @@ fun ProgressCard(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Text(
-                    text = "$visitedParks",
+                    text = visitedParks.toString(),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
                 Text(
-                    text = " / $totalParks Parks",
+                    text = stringResource(R.string.parks_count, totalParks),
                     style = MaterialTheme.typography.titleMedium,
                     color = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier.padding(bottom = 6.dp, start = 4.dp)
@@ -76,7 +76,7 @@ fun ProgressCard(
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     Text(
-                        text = "$progressPercentage% Complete",
+                        text = stringResource(R.string.percentage_complete, progressPercentage),
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                         color = ParkGreen,
                         style = MaterialTheme.typography.labelMedium,
@@ -92,7 +92,7 @@ fun ProgressCard(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "\"The wilderness is calling and I must go.\"",
+                text = stringResource(R.string.wilderness_quote),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = 0.8f),
                 fontStyle = FontStyle.Italic,

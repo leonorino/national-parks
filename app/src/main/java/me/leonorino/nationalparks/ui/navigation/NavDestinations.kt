@@ -7,6 +7,11 @@ import androidx.compose.material.icons.filled.Map
 import androidx.compose.ui.graphics.vector.ImageVector
 import me.leonorino.nationalparks.R
 
+object Graph {
+    const val ROOT = "root_graph"
+    const val HOME = "home_graph"
+}
+
 sealed class Screen(val route: String, val labelResId: Int? = null, val icon: ImageVector? = null) {
     object Passport : Screen("passport", R.string.nav_passport, Icons.Default.LocalActivity)
     object Explore : Screen("explore", R.string.nav_explore, Icons.Default.Explore)
@@ -28,4 +33,5 @@ sealed class Screen(val route: String, val labelResId: Int? = null, val icon: Im
     object Details : Screen("details/{parkId}") {
         fun createRoute(parkId: String) = "details/$parkId"
     }
+    object Settings : Screen("settings")
 }

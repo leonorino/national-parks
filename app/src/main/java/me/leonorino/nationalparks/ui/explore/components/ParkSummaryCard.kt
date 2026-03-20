@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ import me.leonorino.nationalparks.model.Park
 import me.leonorino.nationalparks.model.USState
 import me.leonorino.nationalparks.ui.theme.DarkText
 import me.leonorino.nationalparks.ui.theme.MutedText
+import me.leonorino.nationalparks.ui.utils.Constants
 import me.leonorino.nationalparks.ui.utils.fullName
 
 @Composable
@@ -45,7 +47,7 @@ fun ParkSummaryCard(park: Park, onClick: () -> Unit) {
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             AsyncImage(
-                model = "file:///android_asset/${park.cardImageUrl}",
+                model = "${Constants.ASSET_PATH}${park.cardImageUrl}",
                 placeholder = painterResource(R.drawable.card_preview),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
@@ -78,7 +80,7 @@ fun ParkSummaryCard(park: Park, onClick: () -> Unit) {
                     color = DarkText
                 )
                 Text(
-                    text = park.states.first().fullName,
+                    text = stringResource(park.states.first().fullNameResId),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MutedText
                 )

@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import me.leonorino.nationalparks.data.local.ParkData
+import me.leonorino.nationalparks.ui.utils.Constants
 import org.osmdroid.config.Configuration
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
@@ -25,7 +26,7 @@ fun MapScreen(
 
     Configuration.getInstance().load(
         context,
-        context.getSharedPreferences("osm_prefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences(Constants.OSM_PREFS, Context.MODE_PRIVATE)
     )
 
     AndroidView(
