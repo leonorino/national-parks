@@ -178,6 +178,24 @@
     <string name="collected">ШТАМП ПОЛУЧЕН!</string>
     <string name="collect">Я ЗДЕСЬ БЫЛ!</string>
     <string name="stamp_info">Добавьте штамп в свой цифровой паспорт</string>
+    <string name="add_visit">ДОБАВИТЬ ПОСЕЩЕНИЕ</string>
+    <string name="edit_visit">ИЗМЕНИТЬ ПОСЕЩЕНИЕ</string>
+    <string name="delete_visit">УДАЛИТЬ ПОСЕЩЕНИЕ</string>
+    <string name="save_visit">Сохранить посещение</string>
+    <string name="cancel">Отмена</string>
+    <string name="visit_saved_info">Обновите или удалите сохраненные данные о посещении</string>
+    <string name="visit_details">Детали посещения</string>
+    <string name="visited_on">Дата посещения: %1$s</string>
+    <string name="visit_date_label">Дата посещения</string>
+    <string name="visit_date_placeholder">ГГГГ-ММ-ДД</string>
+    <string name="invalid_date_message">Введите корректную дату в формате ГГГГ-ММ-ДД.</string>
+    <string name="rating_label">Оценка</string>
+    <string name="rating_placeholder">Необязательно, от 1 до 5</string>
+    <string name="invalid_rating_message">Оценка должна быть от 1 до 5.</string>
+    <string name="rating_value">%1$d/5</string>
+    <string name="notes_label">Заметки</string>
+    <string name="notes_placeholder">Что вам запомнилось в этом посещении?</string>
+    <string name="delete_visit_confirmation">Удалить этот парк из истории паспорта?</string>
 
     <!-- Настройки -->
     <string name="wilderness_quote">\"Глушь зовёт, и я должен идти.\"</string>

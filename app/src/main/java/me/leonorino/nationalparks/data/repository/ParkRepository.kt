@@ -19,16 +19,36 @@ class ParkRepository(
 
             parks.map { park ->
                 val visit = visitsMap[park.id]
-                ParkWithStatus(park, visit != null, visit?.visitedDate)
+                ParkWithStatus(park, visit)
             }
         }
 
-    suspend fun toggleVisit(parkId: String, isVisited: Boolean) {
-        if (isVisited) {
-            visitDao.delete(parkId)
-        } else {
-            visitDao.insert(Visit(parkId))
-        }
+    suspend fun addVisit(
+        parkId: String,
+        visitedDate: Long,
+        notes: String,
+        rating: Int?
+    ) {
+        visitDao.insert(
+            Visit(
+                parkId = parkId,
+                visitedDate = visitedDate,
+                notes = notes.trim(),
+                rating = rating
+            )
+        )
+    }
+
+    suspend fun updateVisit(visit: Visit) {
+        visitDao.update(visit.copy(notes = visit.notes.trim()))
+    }
+
+    suspend fun deleteVisit(parkId: String) {
+        visitDao.delete(parkId)
+    }
+
+    suspend fun getVisitByParkId(parkId: String): Visit? {
+        return visitDao.getVisitByParkId(parkId)
     }
 
     suspend fun getParkById(parkId: String): Park? {

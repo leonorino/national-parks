@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import me.leonorino.nationalparks.model.Visit
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [Visit::class],
     exportSchema = false
 )
@@ -24,7 +24,10 @@ abstract class NationalParksDatabase : RoomDatabase() {
                     context,
                     NationalParksDatabase::class.java,
                     "national_parks_database"
-                ).build().also { Instance = it }
+                )
+                    .fallbackToDestructiveMigration(true)
+                    .build()
+                    .also { Instance = it }
             }
         }
     }

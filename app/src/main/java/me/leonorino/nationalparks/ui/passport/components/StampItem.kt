@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import me.leonorino.nationalparks.model.ParkWithStatus
+import me.leonorino.nationalparks.ui.details.VisitDateFormatter
 import me.leonorino.nationalparks.ui.theme.DarkText
 import me.leonorino.nationalparks.ui.theme.ForestGreen
 import me.leonorino.nationalparks.ui.theme.MutedText
@@ -112,5 +113,17 @@ fun StampItem(
             maxLines = 2,
             lineHeight = 12.sp
         )
+
+        val visitedDate = parkWithStatus.visitedDate
+        if (visitedDate != null) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = VisitDateFormatter.formatForDisplay(visitedDate),
+                style = MaterialTheme.typography.labelSmall,
+                color = ForestGreen,
+                textAlign = TextAlign.Center,
+                maxLines = 1
+            )
+        }
     }
 }

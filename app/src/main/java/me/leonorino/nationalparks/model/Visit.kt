@@ -6,5 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "visits")
 data class Visit (
     @PrimaryKey val parkId: String,
-    val visitedDate: Long = System.currentTimeMillis()
+    val visitedDate: Long = System.currentTimeMillis(),
+    val notes: String = "",
+    val rating: Int? = null
 )
