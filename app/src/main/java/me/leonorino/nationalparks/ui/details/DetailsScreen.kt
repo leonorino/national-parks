@@ -63,10 +63,12 @@ import coil.compose.AsyncImage
 import me.leonorino.nationalparks.R
 import me.leonorino.nationalparks.model.Park
 import me.leonorino.nationalparks.model.USState
+import me.leonorino.nationalparks.ui.details.components.WeatherBadge
 import me.leonorino.nationalparks.ui.details.components.InfoCard
 import me.leonorino.nationalparks.ui.theme.BeigeBackground
 import me.leonorino.nationalparks.ui.theme.DarkText
 import me.leonorino.nationalparks.ui.theme.ForestGreen
+import me.leonorino.nationalparks.ui.theme.LocalUnitSystem
 import me.leonorino.nationalparks.ui.theme.MutedText
 import me.leonorino.nationalparks.ui.theme.NationalParksTheme
 import me.leonorino.nationalparks.ui.theme.ParkGreen
@@ -174,6 +176,12 @@ fun DetailsContent(
                         modifier = Modifier.size(20.dp)
                     )
                 }
+
+                WeatherBadge(
+                    latitude = park.latitude,
+                    longitude = park.longitude,
+                    tempUnit = LocalUnitSystem.current.currentTempUnit
+                )
             }
         }
 
