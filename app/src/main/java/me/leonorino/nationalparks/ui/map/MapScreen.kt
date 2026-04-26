@@ -45,9 +45,17 @@ fun MapScreen(
                 ParkData.parks.forEach { park ->
                     val marker = Marker(this)
                     marker.position = GeoPoint(park.latitude, park.longitude)
+                    marker.title = ctx.getString(park.nameResId)
+                    marker.snippet = ctx.getString(park.descriptionResId)
+                    
+                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
-                    marker.setOnMarkerClickListener { _, _ ->
-                        onParkClick(park.id)
+                    marker.setOnMarkerClickListener { m, _ ->
+                        if (m.isInfoWindowOpen) {
+                            onParkClick(park.id)
+                        } else {
+                            m.showInfoWindow()
+                        }
                         true
                     }
 
